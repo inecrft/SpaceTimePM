@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_folium import st_folium
 
+from config import MAP_HEIGHT
 from utils import create_folium_map
 
 
@@ -11,7 +12,7 @@ def render_map_view(filtered_df, total_tasks):
         folium_map = create_folium_map(filtered_df)
 
         # Display the map
-        st_folium(folium_map, width=None, height=600, returned_objects=[])
+        st_folium(folium_map, width=None, height=MAP_HEIGHT, returned_objects=[])
 
         # Show count
         if len(filtered_df) < total_tasks:

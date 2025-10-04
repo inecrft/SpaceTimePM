@@ -3,6 +3,7 @@ from .settings import (
     DEFAULT_MAP_ZOOM,
     DEFAULT_MARKER_SIZE,
     GLOW_RADIUS_ADDITION,
+    MAP_HEIGHT,
     MAX_TIME_RANGE_DAYS,
     OPACITY_MAX,
     OPACITY_MIN,
@@ -24,4 +25,5 @@ __all__ = [
     "OPACITY_MIN",
     "OPACITY_MAX",
     "URGENT_THRESHOLD_DAYS",
+    "MAP_HEIGHT",
 ]
