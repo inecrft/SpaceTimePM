@@ -13,6 +13,12 @@ def render_map_view(filtered_df, total_tasks):
         st.plotly_chart(fig, use_container_width=True, key="map", on_select="rerun")
 
         # Show count
-        st.caption(f"Showing {len(filtered_df)} of {total_tasks} tasks")
+        if len(filtered_df) < total_tasks:
+            st.caption(
+                f"Showing {len(filtered_df)} of {total_tasks} tasks"
+                f"({(len(filtered_df) / total_tasks * 100):.1f}% visible)"
+            )
+        else:
+            st.caption(f"Showing all {len(filtered_df)} tasks")
     else:
         st.warning("No tasks in the selected time range. Adjust the time filter.")
