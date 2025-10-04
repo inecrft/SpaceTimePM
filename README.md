@@ -1,6 +1,8 @@
 # Space Time PM
 
-### Installation
+![Project Screenshot](docs/screenshot.png)
+
+## Quick Start
 
 1. Clone the repository:
 ```bash
