@@ -82,10 +82,6 @@ def create_popup_html(task):
             <p style="margin: 5px 0;"><b>🏁 End:</b> {task['end_date'].strftime('%Y-%m-%d')}</p>
             <p style="margin: 5px 0;"><b>⏰ Days Until:</b> {task['days_until']} days</p>
             <p style="margin: 5px 0;"><b>📊 Status:</b> {task['status']}</p>
-            <div style="background-color: #f0f0f0; border-radius: 10px; height: 20px; margin-top: 10px;">
-                <div style="background-color: {task['color']}; width: {task['progress']}%; height: 100%; border-radius: 10px; transition: width 0.3s;"></div>
-            </div>
-            <p style="margin: 5px 0; font-size: 11px; color: #666;">Progress: {task['progress']}%</p>
         </div>
     """
 
@@ -133,11 +129,6 @@ def create_folium_map(filtered_df):
             popup=folium.Popup(create_popup_html(task), max_width=300),
             tooltip=f"{task['name']} - {task['city']} ({task['days_until']}d)",
         ).add_to(m)
-
-    # Add layer control (optional - allows switching map styles)
-    folium.TileLayer("Stamen Terrain").add_to(m)
-    folium.TileLayer("CartoDB positron").add_to(m)
-    folium.LayerControl().add_to(m)
 
     # Fit bounds to show all markers
     if len(filtered_df) > 0:
