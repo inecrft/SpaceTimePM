@@ -44,3 +44,8 @@ def get_status_counts(df):
         "Overdue": len(df[df["status"] == "Overdue"]),
         "Completed": len(df[df["status"] == "Completed"]),
     }
+
+def filter_tasks_by_status(df, status_filter):
+    if not status_filter:
+        return pd.DataFrame()
+    return df[df['status'].isin(status_filter)].copy()
