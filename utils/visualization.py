@@ -4,24 +4,30 @@ from config import (
     DEFAULT_MAP_CENTER,
     DEFAULT_MAP_ZOOM,
     GLOW_RADIUS_ADDITION,
+    MAX_TIME_RANGE_DAYS,
+    OPACITY_MAX,
+    OPACITY_MIN,
     STATUS_EMOJIS,
+    URGENT_THRESHOLD_DAYS,
 )
 
 
-def calculate_opacity(days_until, max_days=35):
-    if days_until <= 3:
-        return 1
+def calculate_opacity(days_until):
+    if days_until <= URGENT_THRESHOLD_DAYS:
+        return OPACITY_MAX
 
-    normalized = min(max(days_until - 3, 0), max_days - 3) / (max_days - 3)
-    opacity = 1 - normalized * 0.9
+    normalized = min(max(days_until - URGENT_THRESHOLD_DAYS, 0), MAX_TIME_RANGE_DAYS - URGENT_THRESHOLD_DAYS) / (
+        MAX_TIME_RANGE_DAYS - URGENT_THRESHOLD_DAYS
+    )
+    opacity = OPACITY_MAX - normalized * (OPACITY_MAX - OPACITY_MIN)
 
-    return max(opacity, 0.1)
+    return max(opacity, OPACITY_MIN)
 
 
 def should_glow(days_until, status):
     if status in ["Overdue", "In Progress"]:
         return True
-    if status == "Upcoming" and days_until <= 3:
+    if status == "Upcoming" and days_until <= URGENT_THRESHOLD_DAYS:
         return True
     return False
 
@@ -88,7 +94,7 @@ def create_folium_map(filtered_df):
             weight=2 if task["has_glow"] else 1,
             fill=True,
             fillColor=task["color"],
-            fillOpacity=1 if task["has_glow"] else task["opacity"],
+            fillOpacity=OPACITY_MAX if task["has_glow"] else task["opacity"],
             popup=folium.Popup(create_popup_html(task), max_width=300),
             tooltip=f"{task['name']} - {task['city']} ({task['days_until']}d)",
         ).add_to(m)

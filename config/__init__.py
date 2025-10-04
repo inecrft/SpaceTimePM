@@ -4,9 +4,12 @@ from .settings import (
     DEFAULT_MARKER_SIZE,
     GLOW_RADIUS_ADDITION,
     MAX_TIME_RANGE_DAYS,
+    OPACITY_MAX,
+    OPACITY_MIN,
     STATUS_COLORS,
     STATUS_EMOJIS,
     STATUS_ORDER,
+    URGENT_THRESHOLD_DAYS,
 )
 
 __all__ = [
@@ -18,4 +21,7 @@ __all__ = [
     "DEFAULT_MAP_ZOOM",
     "STATUS_ORDER",
     "GLOW_RADIUS_ADDITION",
+    "OPACITY_MIN",
+    "OPACITY_MAX",
+    "URGENT_THRESHOLD_DAYS",
 ]
