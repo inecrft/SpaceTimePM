@@ -1,0 +1,9 @@
+id,name,x,y,city,start_date,end_date,completed
+1,Site Survey,20,30,San Francisco,2025-10-03,2025-10-08,False
+2,Client Meeting,45,25,New York,2025-10-06,2025-10-06,True
+3,Equipment Installation,70,40,Chicago,2025-10-2,2025-10-3,False
+4,Training Session,35,60,Austin,2025-10-12,2025-10-14,False
+5,Quality Inspection,60,70,Miami,2025-10-18,2025-10-20,False
+6,Documentation Review,80,55,Boston,2025-10-22,2025-10-25,False
+7,System Testing,25,75,Seattle,2025-10-28,2025-11-02,False
+8,Final Deployment,50,45,Denver,2025-11-05,2025-11-08,False
