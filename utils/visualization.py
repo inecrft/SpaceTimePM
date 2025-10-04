@@ -13,17 +13,7 @@ def calculate_opacity(days_until, max_days=35):
     return max(opacity, 0.1)
 
 
-def calculate_radius(days_until, status, base_size=15):
-    if status == "Overdue":
-        return base_size + 10
-
-    if days_until <= 3:
-        return base_size + 5
-
-    return base_size
-
-
-def should_pulse(days_until, status):
+def should_glow(days_until, status):
     if status in ["Overdue", "In Progress"]:
         return True
     if status == "Upcoming" and days_until <= 3:
@@ -31,45 +21,11 @@ def should_pulse(days_until, status):
     return False
 
 
-def create_custom_icon(color, pulsing=False):
-    pulse_animation = (
-        """
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 {color}80; }
-            50% { box-shadow: 0 0 0 10px {color}00; }
-            100% { box-shadow: 0 0 0 0 {color}80; }
-        }
-    """.format(
-            color=color
-        )
-        if pulsing
-        else ""
-    )
-
-    animation_style = "animation: pulse 2s infinite;" if pulsing else ""
-
-    return f"""
-        <style>
-            {pulse_animation}
-            .custom-marker {{
-                width: 20px;
-                height: 20px;
-                border-radius: 50%;
-                background-color: {color};
-                border: 3px solid white;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-                {animation_style}
-            }}
-        </style>
-        <div class="custom-marker"></div>
-    """
-
-
 def create_popup_html(task):
     emoji = STATUS_EMOJIS.get(task["status"], "⚪")
 
     urgent_badge = ""
-    if should_pulse(task["days_until"], task["status"]):
+    if should_glow(task["days_until"], task["status"]):
         urgent_badge = '<span style="background-color: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">⚠️ URGENT</span><br>'
 
     return f"""
@@ -91,7 +47,7 @@ def create_folium_map(filtered_df):
     m = folium.Map(
         location=DEFAULT_MAP_CENTER,
         zoom_start=DEFAULT_MAP_ZOOM,
-        tiles="OpenStreetMap",  # Options: 'OpenStreetMap', 'Stamen Terrain', 'Stamen Toner', 'CartoDB positron'
+        tiles="OpenStreetMap",
     )
 
     if len(filtered_df) == 0:
@@ -100,32 +56,32 @@ def create_folium_map(filtered_df):
     # Calculate visual properties
     filtered_df = filtered_df.copy()
     filtered_df["opacity"] = filtered_df["days_until"].apply(calculate_opacity)
-    filtered_df["radius"] = filtered_df.apply(lambda row: calculate_radius(row["days_until"], row["status"]), axis=1)
-    filtered_df["pulsing"] = filtered_df.apply(lambda row: should_pulse(row["days_until"], row["status"]), axis=1)
+    filtered_df["radius"] = 15
+    filtered_df["has_glow"] = filtered_df.apply(lambda row: should_glow(row["days_until"], row["status"]), axis=1)
 
     # Add markers for each task
     for _, task in filtered_df.iterrows():
-        # Create glow effect for pulsing tasks (outer circle)
-        if task["pulsing"]:
-            folium.Circle(
+        # Create glow effect (outer circle)
+        if task["has_glow"]:
+            folium.CircleMarker(
                 location=[task["lat"], task["lng"]],
-                radius=task["radius"] * 100,  # Convert to meters (approximate)
+                radius=task["radius"] + 5,
                 color=task["color"],
                 fill=True,
                 fillColor=task["color"],
-                fillOpacity=0.15,
+                fillOpacity=0.4,
                 weight=0,
             ).add_to(m)
 
-        # Main marker (CircleMarker for consistent size)
+        # Main marker
         folium.CircleMarker(
             location=[task["lat"], task["lng"]],
             radius=task["radius"],
             color="white",
-            weight=3 if task["pulsing"] else 2,
+            weight=2 if task["has_glow"] else 1,
             fill=True,
             fillColor=task["color"],
-            fillOpacity=task["opacity"],
+            fillOpacity=1 if task["has_glow"] else task["opacity"],
             popup=folium.Popup(create_popup_html(task), max_width=300),
             tooltip=f"{task['name']} - {task['city']} ({task['days_until']}d)",
         ).add_to(m)
