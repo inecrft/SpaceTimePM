@@ -1,6 +1,11 @@
 import folium
 
-from config import DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM, STATUS_EMOJIS
+from config import (
+    DEFAULT_MAP_CENTER,
+    DEFAULT_MAP_ZOOM,
+    GLOW_RADIUS_ADDITION,
+    STATUS_EMOJIS,
+)
 
 
 def calculate_opacity(days_until, max_days=35):
@@ -56,7 +61,6 @@ def create_folium_map(filtered_df):
     # Calculate visual properties
     filtered_df = filtered_df.copy()
     filtered_df["opacity"] = filtered_df["days_until"].apply(calculate_opacity)
-    filtered_df["radius"] = 15
     filtered_df["has_glow"] = filtered_df.apply(lambda row: should_glow(row["days_until"], row["status"]), axis=1)
 
     # Add markers for each task
@@ -65,7 +69,7 @@ def create_folium_map(filtered_df):
         if task["has_glow"]:
             folium.CircleMarker(
                 location=[task["lat"], task["lng"]],
-                radius=task["radius"] + 5,
+                radius=task["size"] + GLOW_RADIUS_ADDITION,
                 color=task["color"],
                 fill=True,
                 fillColor=task["color"],
@@ -76,7 +80,7 @@ def create_folium_map(filtered_df):
         # Main marker
         folium.CircleMarker(
             location=[task["lat"], task["lng"]],
-            radius=task["radius"],
+            radius=task["size"],
             color="white",
             weight=2 if task["has_glow"] else 1,
             fill=True,
