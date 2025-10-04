@@ -11,6 +11,7 @@ cd SpaceTimePM
 2. Create a virtual environment:
 ```bash
 conda create --name space-time-pm python=3.13
+conda activate space-time-pm
 ```
 
 3. Install dependencies:
