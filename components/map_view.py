@@ -1,16 +1,17 @@
 import streamlit as st
+from streamlit_folium import st_folium
 
-from utils import create_map_figure
+from utils import create_folium_map
 
 
 def render_map_view(filtered_df, total_tasks):
     st.subheader("🗺️ Task Map")
 
     if len(filtered_df) > 0:
-        fig = create_map_figure(filtered_df)
+        folium_map = create_folium_map(filtered_df)
 
         # Display the map
-        st.plotly_chart(fig, use_container_width=True, key="map", on_select="rerun")
+        st_folium(folium_map, width=None, height=600, returned_objects=[])
 
         # Show count
         if len(filtered_df) < total_tasks:

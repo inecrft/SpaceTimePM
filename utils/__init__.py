@@ -4,11 +4,11 @@ from .task_utils import (
     get_status_counts,
     prepare_task_dataframe,
 )
-from .visualization import create_map_figure
+from .visualization import create_folium_map
 
 __all__ = [
     "prepare_task_dataframe",
-    "create_map_figure",
+    "create_folium_map",
     "get_status_counts",
     "filter_tasks_by_time",
     "filter_tasks_by_status",
