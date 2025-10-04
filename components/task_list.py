@@ -1,6 +1,6 @@
 import streamlit as st
 
-from config import STATUS_EMOJI
+from config import STATUS_EMOJIS
 
 
 def render_task_list(filtered_df):
@@ -12,7 +12,7 @@ def render_task_list(filtered_df):
 
         for _, task in display_df.iterrows():
             with st.container():
-                st.markdown(f"**{STATUS_EMOJI[task['status']]} {task['name']}**")
+                st.markdown(f"**{STATUS_EMOJIS[task['status']]} {task['name']}**")
                 st.caption(f"📍 {task['city']} | 📅 {task['days_until']}d")
 
                 # Expandable details

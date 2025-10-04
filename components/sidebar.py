@@ -1,6 +1,6 @@
 import streamlit as st
 
-from config import MAX_TIME_RANGE_DAYS, STATUS_EMOJI
+from config import MAX_TIME_RANGE_DAYS, STATUS_EMOJIS
 
 
 def render_sidebar(today):
@@ -28,12 +28,12 @@ def render_sidebar(today):
     if select_all:
         status_filter = all_statuses.copy()
         for status in all_statuses:
-            st.checkbox(f"{STATUS_EMOJI[status]} {status}", value=True, disabled=True, key=f"status_{status}")
+            st.checkbox(f"{STATUS_EMOJIS[status]} {status}", value=True, disabled=True, key=f"status_{status}")
     else:
         status_filter = []
         for status in all_statuses:
             default_checked = status in default_statuses
-            if st.checkbox(f"{STATUS_EMOJI[status]} {status}", value=default_checked, key=f"status_{status}"):
+            if st.checkbox(f"{STATUS_EMOJIS[status]} {status}", value=default_checked, key=f"status_{status}"):
                 status_filter.append(status)
 
     st.markdown("---")
