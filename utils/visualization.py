@@ -27,24 +27,27 @@ def should_glow(days_until, status):
 
 
 def create_popup_html(task):
-    emoji = STATUS_EMOJIS.get(task["status"], "⚪")
+    try:
+        emoji = STATUS_EMOJIS.get(task["status"], "⚪")
 
-    urgent_badge = ""
-    if should_glow(task["days_until"], task["status"]):
-        urgent_badge = '<span style="background-color: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">⚠️ URGENT</span><br>'
+        urgent_badge = ""
+        if task["status"] == "Overdue":
+            urgent_badge = '<span style="background-color: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold;">⚠️ URGENT</span><br>'
 
-    return f"""
-        <div style="font-family: Arial; min-width: 200px;">
-            {urgent_badge}
-            <h4 style="margin: 5px 0;">{emoji} {task['name']}</h4>
-            <hr style="margin: 8px 0;">
-            <p style="margin: 5px 0;"><b>📍 Location:</b> {task['city']}</p>
-            <p style="margin: 5px 0;"><b>📅 Start:</b> {task['start_date'].strftime('%Y-%m-%d')}</p>
-            <p style="margin: 5px 0;"><b>🏁 End:</b> {task['end_date'].strftime('%Y-%m-%d')}</p>
-            <p style="margin: 5px 0;"><b>⏰ Days Until:</b> {task['days_until']} days</p>
-            <p style="margin: 5px 0;"><b>📊 Status:</b> {task['status']}</p>
-        </div>
-    """
+        return f"""
+            <div style="font-family: Arial; min-width: 200px;">
+                {urgent_badge}
+                <h4 style="margin: 5px 0;">{emoji} {task['name']}</h4>
+                <hr style="margin: 8px 0;">
+                <p style="margin: 5px 0;"><b>📍 Location:</b> {task['city']}</p>
+                <p style="margin: 5px 0;"><b>📅 Start:</b> {task['start_date'].strftime('%Y-%m-%d')}</p>
+                <p style="margin: 5px 0;"><b>🏁 End:</b> {task['end_date'].strftime('%Y-%m-%d')}</p>
+                <p style="margin: 5px 0;"><b>⏰ Days Until:</b> {task['days_until']} days</p>
+                <p style="margin: 5px 0;"><b>📊 Status:</b> {task['status']}</p>
+            </div>
+        """
+    except Exception as e:
+        return f'<div style="color: red;">Error rendering popup: {str(e)}</div>'
 
 
 def create_folium_map(filtered_df):
