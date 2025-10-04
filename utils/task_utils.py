@@ -38,6 +38,13 @@ def filter_tasks_by_time(df, time_range):
 
 
 def get_status_counts(df):
+    if len(df) == 0 or 'status' not in df.columns:
+        return {
+            "Upcoming": 0,
+            "In Progress": 0,
+            "Overdue": 0,
+            "Completed": 0,
+        }
     return {
         "Upcoming": len(df[df["status"] == "Upcoming"]),
         "In Progress": len(df[df["status"] == "In Progress"]),
