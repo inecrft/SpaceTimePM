@@ -1,6 +1,6 @@
 import streamlit as st
 
-from config import MAX_TIME_RANGE_DAYS
+from config import MAX_TIME_RANGE_DAYS, STATUS_EMOJI
 
 
 def render_sidebar(today):
@@ -21,6 +21,30 @@ def render_sidebar(today):
 
     st.markdown("---")
 
+    st.subheader("📊 Status Filter")
+    all_statuses = ['Upcoming', 'In Progress', 'Overdue', 'Completed']
+    select_all = st.checkbox("Select All", value=True, key="select_all_status")
+    if select_all:
+        status_filter = all_statuses.copy()
+        for status in all_statuses:
+            st.checkbox(
+                f"{STATUS_EMOJI[status]} {status}",
+                value=True,
+                disabled=True,
+                key=f"status_{status}"
+            )
+    else:
+        status_filter = []
+        for status in all_statuses:
+            if st.checkbox(
+                f"{STATUS_EMOJI[status]} {status}",
+                value=True,
+                key=f"status_{status}"
+            ):
+                status_filter.append(status)
+    
+    st.markdown("---")
+
     # Legend
     st.subheader("📊 Status Legend")
     st.markdown(
@@ -32,4 +56,4 @@ def render_sidebar(today):
     """
     )
 
-    return time_range
+    return time_range, status_filter

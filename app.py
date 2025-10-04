@@ -21,12 +21,12 @@ task_manager = get_task_manager()
 today = pd.Timestamp(date.today())
 
 # Title and description
-st.title("🗺️ Spatio-Temporal Project Manager")
+st.title("🗺️ Space Time Project Manager")
 st.markdown("*Visualizing tasks across space and time*")
 
 # Sidebar for controls
 with st.sidebar:
-    time_range = render_sidebar(today)
+    time_range, status_filter = render_sidebar(today)
 
 # Prepare data
 df = prepare_task_dataframe(task_manager.get_all_tasks(), today)
