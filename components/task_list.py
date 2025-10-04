@@ -25,4 +25,5 @@ def render_task_list(filtered_df):
 
                 st.divider()
     else:
-        st.info("No tasks to display in the selected time range.")
+        st.warning("⚠️ No tasks match the current filters. Try adjusting your filter settings.")
+        st.info("💡 Tip: Enable more statuses or increase the time range to see more tasks.")

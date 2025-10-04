@@ -21,4 +21,5 @@ def render_map_view(filtered_df, total_tasks):
         else:
             st.caption(f"Showing all {len(filtered_df)} tasks")
     else:
-        st.warning("No tasks in the selected time range. Adjust the time filter.")
+        st.warning("⚠️ No tasks match the current filters. Try adjusting your filter settings.")
+        st.info("💡 Tip: Enable more statuses or increase the time range to see more tasks.")
