@@ -5,7 +5,7 @@ import streamlit as st
 
 from components import render_map_view, render_metrics, render_sidebar, render_task_list
 from data import TaskManager
-from utils import filter_tasks_by_time, prepare_task_dataframe, filter_tasks_by_status
+from utils import filter_tasks_by_status, filter_tasks_by_time, prepare_task_dataframe
 
 # Page config
 st.set_page_config(page_title="Spatio-Temporal Project Manager", layout="wide")

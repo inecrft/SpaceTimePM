@@ -22,29 +22,20 @@ def render_sidebar(today):
     st.markdown("---")
 
     st.subheader("📊 Status Filter")
-    all_statuses = ['Upcoming', 'In Progress', 'Overdue', 'Completed']
-    default_statuses = ['Upcoming', 'In Progress', 'Overdue']
+    all_statuses = ["Upcoming", "In Progress", "Overdue", "Completed"]
+    default_statuses = ["Upcoming", "In Progress", "Overdue"]
     select_all = st.checkbox("Select All", value=False, key="select_all_status")
     if select_all:
         status_filter = all_statuses.copy()
         for status in all_statuses:
-            st.checkbox(
-                f"{STATUS_EMOJI[status]} {status}",
-                value=True,
-                disabled=True,
-                key=f"status_{status}"
-            )
+            st.checkbox(f"{STATUS_EMOJI[status]} {status}", value=True, disabled=True, key=f"status_{status}")
     else:
         status_filter = []
         for status in all_statuses:
             default_checked = status in default_statuses
-            if st.checkbox(
-                f"{STATUS_EMOJI[status]} {status}",
-                value=default_checked,
-                key=f"status_{status}"
-            ):
+            if st.checkbox(f"{STATUS_EMOJI[status]} {status}", value=default_checked, key=f"status_{status}"):
                 status_filter.append(status)
-    
+
     st.markdown("---")
 
     # Legend

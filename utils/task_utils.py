@@ -38,7 +38,7 @@ def filter_tasks_by_time(df, time_range):
 
 
 def get_status_counts(df):
-    if len(df) == 0 or 'status' not in df.columns:
+    if len(df) == 0 or "status" not in df.columns:
         return {
             "Upcoming": 0,
             "In Progress": 0,
@@ -52,7 +52,8 @@ def get_status_counts(df):
         "Completed": len(df[df["status"] == "Completed"]),
     }
 
+
 def filter_tasks_by_status(df, status_filter):
     if not status_filter:
         return pd.DataFrame()
-    return df[df['status'].isin(status_filter)].copy()
+    return df[df["status"].isin(status_filter)].copy()
