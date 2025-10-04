@@ -5,6 +5,7 @@ from .settings import (
     MAX_TIME_RANGE_DAYS,
     STATUS_COLORS,
     STATUS_EMOJIS,
+    STATUS_ORDER,
 )
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     "DEFAULT_MARKER_SIZE",
     "DEFAULT_MAP_CENTER",
     "DEFAULT_MAP_ZOOM",
+    "STATUS_ORDER",
 ]

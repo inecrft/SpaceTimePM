@@ -1,6 +1,6 @@
 import pandas as pd
 
-from config import DEFAULT_MARKER_SIZE, STATUS_COLORS
+from config import DEFAULT_MARKER_SIZE, STATUS_COLORS, STATUS_ORDER
 
 
 def get_task_status(row, today):
@@ -22,6 +22,13 @@ def get_days_until(date, today):
     return (date - today).days
 
 
+def get_status_priority(status):
+    try:
+        return STATUS_ORDER.index(status)
+    except ValueError:
+        return len(STATUS_ORDER)
+
+
 def prepare_task_dataframe(tasks_data, today):
     df = pd.DataFrame(tasks_data)
     df["start_date"] = pd.to_datetime(df["start_date"])
@@ -30,6 +37,7 @@ def prepare_task_dataframe(tasks_data, today):
     df["status"] = df.apply(lambda row: get_task_status(row, today), axis=1)
     df["color"] = df["status"].apply(get_task_color)
     df["size"] = DEFAULT_MARKER_SIZE
+    df.sort_values(by="status", key=lambda x: x.map(get_status_priority))
     return df
 
 
